@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cafe-oscuro: #241a14;
+  --cafe-medio: #6b4a35;
+  --crema: #f4efe7;
+  --arena: #d9c8b4;
+  --oliva: #68705a;
+  --blanco: #faf9f6;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  background-color: var(--blanco);
+  color: var(--cafe-oscuro);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background-color: var(--arena);
+  color: var(--cafe-oscuro);
+}
