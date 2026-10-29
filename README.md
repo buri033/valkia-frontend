@@ -117,3 +117,9 @@ Se guarda en `localStorage` del navegador a través de la clave `valkia_token`.
 ### 4. Uso de Inteligencia Artificial
 - **Para qué se usó:** Para agilizar la migración de las clases de CSS nativo de la Entrega 1 a las utilidades correspondientes de Tailwind CSS, estructurar los componentes modulares de App Router y generar el diseño responsive del panel administrativo.
 - **Qué se tuvo que corregir:** Se ajustó la configuración de fuentes personalizadas con `next/font/google` para `Fraunces` y `Work Sans`, se corrigió la integración de `useSearchParams` envolviendo el catálogo en un límite de `<Suspense>` para el prerenderizado estático de Next.js, y se adaptó el cliente HTTP centralizado para interceptar errores 401 de forma limpia sin alertas intrusivas.
+
+
+## Evidencia del network
+A continuación muestro la evidencia de la petición HTTP protegida hacia la API con el encabezado Authorization: Bearer <token>
+<img width="1902" height="917" alt="image" src="https://github.com/user-attachments/assets/70da6bad-0128-4e4b-8cc6-495f06ad976e" />
+
