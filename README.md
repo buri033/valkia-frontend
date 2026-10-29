@@ -6,7 +6,7 @@ Aplicación web moderna y responsive construida con **Next.js 14 (App Router)**,
 
 ## Enlaces del Proyecto
 
-- **Sitio Desplegado en Vercel:** [https://valkia-coffee.vercel.app](https://valkia-coffee.vercel.app) *(Mismo dominio de la Entrega 1)*
+- **Sitio Desplegado en Vercel:** [https://valkia-coffee.vercel.app](https://valkia-coffee.vercel.app) 
 - **API Backend Desplegada:**  https://valkia-backend.onrender.com
 - **Repositorio Frontend:** [https://github.com/buri033/valkia-frontend](https://github.com/buri033/valkia-frontend)
 - **Repositorio Backend:** [https://github.com/buri033/valkia-backend](https://github.com/buri033/valkia-backend)
