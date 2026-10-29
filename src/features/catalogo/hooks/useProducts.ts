@@ -13,6 +13,8 @@ export function useProducts(initialFilters: ProductFilters = {}) {
   const urlPage = searchParams.get('page') ? parseInt(searchParams.get('page') as string, 10) : 1;
   const urlCategory = searchParams.get('category') || initialFilters.category || 'todos';
   const urlSearch = searchParams.get('search') || initialFilters.search || '';
+  const urlMinPrice = searchParams.get('minPrice') ? parseFloat(searchParams.get('minPrice') as string) : initialFilters.minPrice;
+  const urlMaxPrice = searchParams.get('maxPrice') ? parseFloat(searchParams.get('maxPrice') as string) : initialFilters.maxPrice;
 
   const [productsData, setProductsData] = useState<PaginatedProducts | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -27,6 +29,8 @@ export function useProducts(initialFilters: ProductFilters = {}) {
         limit: initialFilters.limit || 6,
         category: urlCategory,
         search: urlSearch,
+        minPrice: urlMinPrice,
+        maxPrice: urlMaxPrice,
       });
       setProductsData(data);
     } catch (err: unknown) {
@@ -35,7 +39,7 @@ export function useProducts(initialFilters: ProductFilters = {}) {
     } finally {
       setIsLoading(false);
     }
-  }, [urlPage, urlCategory, urlSearch, initialFilters.limit]);
+  }, [urlPage, urlCategory, urlSearch, urlMinPrice, urlMaxPrice, initialFilters.limit]);
 
   useEffect(() => {
     fetchProducts();
@@ -50,7 +54,7 @@ export function useProducts(initialFilters: ProductFilters = {}) {
   const setCategory = (newCategory: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('category', newCategory);
-    params.set('page', '1'); // Reiniciar a página 1 al filtrar
+    params.set('page', '1');
     router.push(`${pathname}?${params.toString()}`);
   };
 
@@ -65,6 +69,22 @@ export function useProducts(initialFilters: ProductFilters = {}) {
     router.push(`${pathname}?${params.toString()}`);
   };
 
+  const setPriceRange = (min?: number, max?: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (min !== undefined && !isNaN(min)) {
+      params.set('minPrice', min.toString());
+    } else {
+      params.delete('minPrice');
+    }
+    if (max !== undefined && !isNaN(max)) {
+      params.set('maxPrice', max.toString());
+    } else {
+      params.delete('maxPrice');
+    }
+    params.set('page', '1');
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
   return {
     products: productsData?.data || [],
     pagination: productsData?.pagination,
@@ -73,9 +93,12 @@ export function useProducts(initialFilters: ProductFilters = {}) {
     currentPage: urlPage,
     currentCategory: urlCategory,
     currentSearch: urlSearch,
+    currentMinPrice: urlMinPrice,
+    currentMaxPrice: urlMaxPrice,
     setPage,
     setCategory,
     setSearch,
+    setPriceRange,
     refetch: fetchProducts,
   };
 }

@@ -8,6 +8,8 @@ export const productService = {
     if (filters.limit) params.set('limit', filters.limit.toString());
     if (filters.category && filters.category !== 'todos') params.set('category', filters.category);
     if (filters.search) params.set('search', filters.search);
+    if (filters.minPrice !== undefined && filters.minPrice !== null) params.set('minPrice', filters.minPrice.toString());
+    if (filters.maxPrice !== undefined && filters.maxPrice !== null) params.set('maxPrice', filters.maxPrice.toString());
 
     const queryString = params.toString();
     const endpoint = `/catalogo${queryString ? `?${queryString}` : ''}`;

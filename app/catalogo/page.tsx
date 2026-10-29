@@ -4,6 +4,7 @@ import React, { Suspense } from 'react';
 import { useProducts } from '@/features/catalogo/hooks/useProducts';
 import { ProductCard } from '@/features/catalogo/components/ProductCard';
 import { PaginationControls } from '@/features/catalogo/components/PaginationControls';
+import { ProductFilters } from '@/features/catalogo/components/ProductFilters';
 
 function CatalogoContent() {
   const {
@@ -12,8 +13,13 @@ function CatalogoContent() {
     isLoading,
     error,
     currentCategory,
+    currentSearch,
+    currentMinPrice,
+    currentMaxPrice,
     setPage,
     setCategory,
+    setSearch,
+    setPriceRange,
     refetch,
   } = useProducts({ limit: 6 });
 
@@ -70,7 +76,7 @@ function CatalogoContent() {
     <main>
       <section className="page-hero">
         <div className="container">
-          <p className="page-hero-eyebrow">Catálogo de Especialidad · Valkia Coffee</p>
+          <p className="page-hero-eyebrow">Catálogo de Especialidad — Valkia Coffee</p>
           <h1 className="page-hero-title">Tienda de Cafés de Autor & Accesorios</h1>
           <p className="page-hero-subtitle">
             Descubre lotes de especialidad de origen único, cafeteras de precisión y suscripciones mensuales.
@@ -80,33 +86,16 @@ function CatalogoContent() {
 
       <div className="section catalogo">
         <div className="container">
-          {/* Barra de filtros original de ValkiaCoffee */}
-          <div className="filter-bar">
-            <button
-              className={`filter-btn ${currentCategory === 'todos' ? 'active' : ''}`}
-              onClick={() => setCategory('todos')}
-            >
-              Todos los productos
-            </button>
-            <button
-              className={`filter-btn ${currentCategory === 'cafes' ? 'active' : ''}`}
-              onClick={() => setCategory('cafes')}
-            >
-              Cafés de Autor
-            </button>
-            <button
-              className={`filter-btn ${currentCategory === 'accesorios' ? 'active' : ''}`}
-              onClick={() => setCategory('accesorios')}
-            >
-              Métodos & Accesorios
-            </button>
-            <button
-              className={`filter-btn ${currentCategory === 'suscripciones' ? 'active' : ''}`}
-              onClick={() => setCategory('suscripciones')}
-            >
-              Suscripciones & Kits
-            </button>
-          </div>
+          {/* Barra de filtros combinados: Categoría, Búsqueda y Rango de Precio (Bonus +2 pts) */}
+          <ProductFilters
+            currentCategory={currentCategory}
+            currentSearch={currentSearch}
+            currentMinPrice={currentMinPrice}
+            currentMaxPrice={currentMaxPrice}
+            onCategoryChange={setCategory}
+            onSearchChange={setSearch}
+            onPriceChange={setPriceRange}
+          />
 
           {/* Estado de error */}
           {error && (
@@ -125,8 +114,16 @@ function CatalogoContent() {
             </div>
           )}
 
+          {/* Sin resultados */}
+          {!isLoading && !error && products.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--cafe-medio)' }}>
+              <p style={{ fontSize: '1.2rem', fontFamily: 'var(--serif)' }}>No se encontraron productos con los filtros aplicados.</p>
+              <p style={{ fontSize: '0.9rem', marginTop: '0.5rem', opacity: 0.8 }}>Intenta ajustando el rango de precios o el término de búsqueda.</p>
+            </div>
+          )}
+
           {/* Grid de productos dinámico */}
-          {!isLoading && !error && (
+          {!isLoading && !error && products.length > 0 && (
             <>
               <div className="cafe-grid" id="cafeGrid">
                 {products.map((p) => (
@@ -144,7 +141,7 @@ function CatalogoContent() {
         </div>
       </div>
 
-      {/* SECCIÓN PERFILES DE SABOR ORIGINAL */}
+      {/* SECCIÓN PERFILES DE SABOR */}
       <section className="section perfiles texture">
         <div className="container">
           <div className="section-head reveal in-view">
@@ -173,7 +170,7 @@ function CatalogoContent() {
         </div>
       </section>
 
-      {/* SECCIÓN MÉTODOS DE EXTRACCIÓN ORIGINAL */}
+      {/* SECCIÓN MÉTODOS DE EXTRACCIÓN */}
       <section className="section metodos" id="metodos">
         <div className="container">
           <div className="section-head reveal in-view">
